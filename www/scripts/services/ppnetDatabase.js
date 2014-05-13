@@ -6,8 +6,8 @@ ppSync.factory('ppSyncService', function($q, $window) {
 
   var dbname = 'ppnet_default';
   // var remote = 'http://127.0.0.1:5984/' + dbname;
-  var remote = 'http://couchdb.simple-url.com:5984/' + dbname;
-
+  //var remote = 'http://couchdb.simple-url.com:5984/' + dbname;
+  var remote = new PouchDB ( window.localStorage.ThaliTDHUrl );
 
   /* Create the PouchDB object */
   var db = new PouchDB(dbname, {

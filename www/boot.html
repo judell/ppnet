@@ -1,0 +1,53 @@
+<html>
+<head>
+
+<script src="../../../BridgeManager.js"></script>
+<script src="../../../pouchdb.js"></script>
+<script src="../../../xmlhttprequesttothali.js"></script>
+<script src="../../../utils.js"></script>
+
+
+<body>
+
+<form action="javascript:ProvisionAndLaunch()">
+TDH is on <input id="host" value="127.0.0.1">
+<input type="submit">												 
+</form>												 
+
+<script>
+
+function ProvisionAndLaunch() {
+
+var host = document.getElementById('host').value;
+window.localStorage.ThaliTDH = host;
+
+var dbname = 'ppnet_default';
+window.localStorage.ThaliDbName = dbname;
+
+console.log('host is: ' + host);
+	
+ThaliXMLHttpRequest.ProvisionClientToHub(host, 9898, function callback(xhrOrNull, httpKeyUrl) {
+	if ( xhrOrNull != null ) 
+		alert('err ' + xhrOrNull.status);
+
+	if ( httpKeyUrl == null ) 
+		alert('null httpKeyUrl');
+
+	var ThaliTDHUrl = httpKeyUrl + dbname
+
+	window.localStorage.ThaliTDHUrl = ThaliTDHUrl;
+	
+	console.log('ThaliTDHUrl: ' + ThaliTDHUrl);
+
+	var db = new PouchDB( ThaliTDHUrl );
+	console.log('boot: db.adapter: ' + db.adapter);
+
+	location = 'index.html';
+  });
+
+}
+
+</script>
+</body>
+</html>
+
