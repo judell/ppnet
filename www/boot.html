@@ -22,6 +22,9 @@ var host = document.getElementById('host').value;
 window.localStorage.ThaliTDH = host;
 
 var dbname = 'ppnet_default';
+
+new PouchDB ( dbname ).destroy();
+	
 window.localStorage.ThaliDbName = dbname;
 
 console.log('host is: ' + host);
