@@ -77,7 +77,14 @@ ppSync.factory('ppSyncService', function($q, $window) {
 */	  
 
 	  db.replicate.from(remote, {
-		  complete: syncFromRemote
+		  complete: function(err,resp) {
+		    if (err)
+			console.log(err);
+		    else
+			if ( resp.docs_read > 0 )
+				console.log('synced ' + resp.docs_read);
+		    syncFromRemote();				    
+		    }
 	  });
 
 /*	  
