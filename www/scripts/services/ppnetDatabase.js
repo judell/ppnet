@@ -66,17 +66,38 @@ ppSync.factory('ppSyncService', function($q, $window) {
    * The first process is the replicate.from function. It replicates all database changes
    * made on the remote couchdb server to the local pouchdb instance.
    */
+  
   var syncFromRemote = function() {
 
-    // This is a filter function which can be used in a replication function to collect
-    // only documents which pass the filter condition.
-    // This filter checks the timestamp of a document and returns false if the timestamp
-    // is older than 24 hours.
-    var syncFilter = function(doc) {
-      var timeBarrier = Date.now() - (86400 * 1000);
-      return doc.created > timeBarrier ? true : false;
-    };
+	  /*	  
+	  var syncFilter = function(doc) {
+		  var timeBarrier = Date.now() - (86400 * 1000);
+		  return doc.created > timeBarrier ? true : false;
+	  };
+*/	  
 
+	  db.replicate.from(remote, {
+		  complete: syncFromRemote
+	  });
+
+/*	  
+	  setInterval(function() {
+		  db.replicate.from(remote, {
+//		    continuous: true,
+//		    filter: syncFilter,
+			  complete: function(err,resp)
+				    {
+					    if ( err )
+						    console.log('err: ' + err);
+//				      else
+//					      console.log(resp);
+				    }
+		  });
+	  },
+		      1000);
+*/		      
+
+/*    
     // This is the continuousSync function which replicates changes from the remote couchdb
     // server. It starts with a delay of 1 second to ensure that there is no conflict with
     // previous replication processes.
@@ -97,8 +118,10 @@ ppSync.factory('ppSyncService', function($q, $window) {
       batch_size: 1000,
       complete: continuousSync
     });
+*/  
   };
-  //syncFromRemote();
+
+  syncFromRemote();
 
   /**
    * This function monitors the network connection used by a webview. The navigator object
