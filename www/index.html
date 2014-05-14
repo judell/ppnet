@@ -32,9 +32,9 @@
 			} else {
 			    script.src = 'vendor/hellojs/browser/hello.all.js';
 			}
+			document.getElementsByTagName('head')[0].appendChild(script);
         */
 			
-			document.getElementsByTagName('head')[0].appendChild(script);
 
 			script.src = 'vendor/hellojs/extended_hello.js';
 			document.getElementsByTagName('head')[0].appendChild(script);
